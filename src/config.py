@@ -21,6 +21,7 @@ DATA_DIR = BASE_DIR / "data"
 RAW_DATA_PATH = DATA_DIR / "raw" / "twcs.csv"
 SAMPLE_DATA_PATH = DATA_DIR / "raw" / "sample.csv"
 PROCESSED_DATA_PATH = DATA_DIR / "processed" / "apple_support_pairs.jsonl"
+RETRIEVER_CACHE_PATH = DATA_DIR / "processed" / "tfidf_index.joblib"
 GOLDEN_SET_PATH = DATA_DIR / "golden" / "golden_eval_set.json"
 REPORTS_DIR = BASE_DIR / "reports"
 
@@ -32,7 +33,9 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 # Auto-detect provider if not explicitly set
-default_provider = "gemini" if GEMINI_API_KEY else ("openai" if OPENAI_API_KEY else "gemini")
+default_provider = (
+    "gemini" if GEMINI_API_KEY else ("openai" if OPENAI_API_KEY else "gemini")
+)
 LLM_PROVIDER = os.getenv("LLM_PROVIDER", default_provider).lower()
 
 if LLM_PROVIDER == "gemini":
@@ -51,7 +54,7 @@ INTENT_CATEGORIES = {
     "app_store_billing_subscriptions": "App Store purchase refunds, unauthorized charges, subscription cancellations, payment method issues.",
     "connectivity_wifi_bluetooth": "WiFi disconnecting, Bluetooth pairing issues, cellular data drops, AirDrop not working.",
     "general_feature_inquiry": "How-to questions, feature guidance, device compatibility, general queries.",
-    "other_unclassified": "Out-of-domain or ambiguous tweets that do not fit the above categories."
+    "other_unclassified": "Out-of-domain or ambiguous tweets that do not fit the above categories.",
 }
 
 # Escalation Trigger Policies
@@ -60,11 +63,11 @@ ESCALATION_POLICIES = {
         "Unauthorized billing or refund disputes requiring financial/account access",
         "Compromised Apple ID / security lockout requiring identity verification",
         "Physical hardware replacement or Genius Bar repair appointments",
-        "Severe customer anger, legal action threats, or repeated unresolved issues"
+        "Severe customer anger, legal action threats, or repeated unresolved issues",
     ],
     "AUTO_REPLY": [
         "Standard troubleshooting steps (restarting, resetting network settings, cache clear)",
         "Public knowledge-base questions and feature how-to guides",
-        "Clarification requests (asking for iOS version, device model, or DM details)"
-    ]
+        "Clarification requests (asking for iOS version, device model, or DM details)",
+    ],
 }

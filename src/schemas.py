@@ -26,7 +26,7 @@ class AgentPrediction(BaseModel):
     intent_confidence: float = Field(
         ge=0.0,
         le=1.0,
-        description="Confidence score for the predicted intent between 0.0 and 1.0."
+        description="Confidence score for the predicted intent between 0.0 and 1.0.",
     )
     action: EscalationAction = Field(
         description="Whether to auto-reply or escalate to a human agent."
@@ -39,30 +39,35 @@ class AgentPrediction(BaseModel):
     )
     retrieved_examples_used: Optional[List[int]] = Field(
         default_factory=list,
-        description="List of retrieved historical conversation IDs used as in-context reference."
+        description="List of retrieved historical conversation IDs used as in-context reference.",
     )
 
 
 class JudgeScore(BaseModel):
     groundedness_score: int = Field(
-        ge=1, le=5,
-        description="1-5 rating: Is the response technically sound and grounded in historical brand policies?"
+        ge=1,
+        le=5,
+        description="1-5 rating: Is the response technically sound and grounded in historical brand policies?",
     )
     tone_empathy_score: int = Field(
-        ge=1, le=5,
-        description="1-5 rating: Does the tone match Apple Support (polite, empathetic, concise, no generic fluff)?"
+        ge=1,
+        le=5,
+        description="1-5 rating: Does the tone match Apple Support (polite, empathetic, concise, no generic fluff)?",
     )
     actionability_score: int = Field(
-        ge=1, le=5,
-        description="1-5 rating: Does the reply give clear, actionable next steps or troubleshooting guidance?"
+        ge=1,
+        le=5,
+        description="1-5 rating: Does the reply give clear, actionable next steps or troubleshooting guidance?",
     )
     escalation_accuracy_score: int = Field(
-        ge=1, le=5,
-        description="1-5 rating: Was the decision to auto-reply or escalate appropriate for this customer scenario?"
+        ge=1,
+        le=5,
+        description="1-5 rating: Was the decision to auto-reply or escalate appropriate for this customer scenario?",
     )
     overall_score: float = Field(
-        ge=1.0, le=5.0,
-        description="Average composite quality score across all dimensions."
+        ge=1.0,
+        le=5.0,
+        description="Average composite quality score across all dimensions.",
     )
     critique: str = Field(
         description="Specific strengths or deficiencies identified in the drafted reply and triage decision."

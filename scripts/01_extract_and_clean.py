@@ -36,7 +36,7 @@ def extract_paired_conversations(
     raw_path: Path,
     output_path: Path,
     target_brand: str = TARGET_BRAND,
-    max_pairs: int = 5000
+    max_pairs: int = 5000,
 ):
     print(f"[*] Reading raw dataset from: {raw_path}")
     print(f"[*] Filtering pairs for brand: @{target_brand}")
@@ -53,20 +53,22 @@ def extract_paired_conversations(
 
         # 1. Collect all brand replies
         brand_chunk = chunk[
-            (chunk["author_id"] == target_brand) &
-            (chunk["inbound"] == False) &
-            (chunk["in_response_to_tweet_id"].notna())
+            (chunk["author_id"] == target_brand)
+            & (chunk["inbound"] == False)
+            & (chunk["in_response_to_tweet_id"].notna())
         ]
         if not brand_chunk.empty:
             for _, row in brand_chunk.iterrows():
                 try:
                     parent_id = int(float(row["in_response_to_tweet_id"]))
-                    brand_replies.append({
-                        "reply_tweet_id": int(row["tweet_id"]),
-                        "in_response_to_tweet_id": parent_id,
-                        "reply_text": clean_text(str(row["text"])),
-                        "created_at": str(row["created_at"])
-                    })
+                    brand_replies.append(
+                        {
+                            "reply_tweet_id": int(row["tweet_id"]),
+                            "in_response_to_tweet_id": parent_id,
+                            "reply_text": clean_text(str(row["text"])),
+                            "created_at": str(row["created_at"]),
+                        }
+                    )
                 except (ValueError, TypeError):
                     continue
 
@@ -78,7 +80,7 @@ def extract_paired_conversations(
                 customer_tweets[tid] = {
                     "customer_tweet_id": tid,
                     "customer_text": clean_text(str(row["text"])),
-                    "created_at": str(row["created_at"])
+                    "created_at": str(row["created_at"]),
                 }
             except (ValueError, TypeError):
                 continue
@@ -102,21 +104,29 @@ def extract_paired_conversations(
             # 1. Customer text must have at least 5 words
             # 2. Avoid duplicates
             # 3. Response text must have at least 3 words
-            if len(cust_text.split()) >= 5 and len(resp_text.split()) >= 3 and cust_text not in seen_customer_texts:
+            if (
+                len(cust_text.split()) >= 5
+                and len(resp_text.split()) >= 3
+                and cust_text not in seen_customer_texts
+            ):
                 seen_customer_texts.add(cust_text)
-                paired_data.append({
-                    "id": len(paired_data) + 1,
-                    "customer_tweet_id": cust["customer_tweet_id"],
-                    "customer_text": cust_text,
-                    "brand_reply_tweet_id": reply["reply_tweet_id"],
-                    "brand_reply_text": resp_text,
-                    "created_at": cust["created_at"]
-                })
+                paired_data.append(
+                    {
+                        "id": len(paired_data) + 1,
+                        "customer_tweet_id": cust["customer_tweet_id"],
+                        "customer_text": cust_text,
+                        "brand_reply_tweet_id": reply["reply_tweet_id"],
+                        "brand_reply_text": resp_text,
+                        "created_at": cust["created_at"],
+                    }
+                )
 
         if len(paired_data) >= max_pairs:
             break
 
-    print(f"[+] Successfully extracted {len(paired_data):,} high-quality conversation pairs.")
+    print(
+        f"[+] Successfully extracted {len(paired_data):,} high-quality conversation pairs."
+    )
 
     # Save to JSONL
     output_path.parent.mkdir(parents=True, exist_ok=True)
