@@ -21,7 +21,7 @@ class LLMSupportJudge:
         reference_reply: str = "",
         ground_truth_escalate: bool = False,
     ) -> JudgeScore:
-        from src.config import GEMINI_API_KEY, OPENAI_API_KEY, LLM_PROVIDER
+        from src.config import GEMINI_API_KEY
 
         system_prompt = f"""You are an expert QA Auditor evaluating customer support agents for @AppleSupport.
 Your job is to rigorously evaluate an AI agent's prediction and drafted reply using a 1-5 rubric across 4 dimensions:
@@ -46,9 +46,7 @@ AI Agent Output:
 """
 
         # Gemini API
-        if (LLM_PROVIDER == "gemini" and GEMINI_API_KEY) or (
-            GEMINI_API_KEY and not OPENAI_API_KEY
-        ):
+        if GEMINI_API_KEY:
             try:
                 from google import genai
                 from google.genai import types
@@ -99,36 +97,6 @@ AI Agent Output:
                     escalation_accuracy_score=esc_score,
                     overall_score=overall,
                     critique=f"[Gemini Fallback: {str(e)[:30]}] Rubric evaluation completed.",
-                )
-
-        # OpenAI API
-        elif OPENAI_API_KEY:
-            try:
-                from openai import OpenAI
-
-                client = OpenAI(api_key=OPENAI_API_KEY)
-                model_name = (
-                    self.model_name if "gpt" in self.model_name else "gpt-4o-mini"
-                )
-
-                response = client.beta.chat.completions.parse(
-                    model=model_name,
-                    messages=[
-                        {"role": "system", "content": system_prompt},
-                        {"role": "user", "content": user_prompt},
-                    ],
-                    response_format=JudgeScore,
-                    temperature=0.0,
-                )
-                return response.choices[0].message.parsed
-            except Exception as e:
-                return JudgeScore(
-                    groundedness_score=3,
-                    tone_empathy_score=3,
-                    actionability_score=3,
-                    escalation_accuracy_score=3,
-                    overall_score=3.0,
-                    critique=f"Evaluation fallback triggered: {str(e)[:40]}",
                 )
 
         # Offline Heuristic Scoring

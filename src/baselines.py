@@ -149,7 +149,7 @@ class SimpleZeroShotBaseline:
         self.model_name = model_name
 
     def predict(self, text: str) -> AgentPrediction:
-        from src.config import GEMINI_API_KEY, OPENAI_API_KEY, LLM_PROVIDER
+        from src.config import GEMINI_API_KEY
 
         system_prompt = (
             "You are an Apple Support assistant. Classify the user's intent into one of: "
@@ -159,9 +159,7 @@ class SimpleZeroShotBaseline:
         user_prompt = f"Customer tweet: {text}"
 
         # Gemini API
-        if (LLM_PROVIDER == "gemini" and GEMINI_API_KEY) or (
-            GEMINI_API_KEY and not OPENAI_API_KEY
-        ):
+        if GEMINI_API_KEY:
             try:
                 from google import genai
                 from google.genai import types
@@ -189,34 +187,6 @@ class SimpleZeroShotBaseline:
                 res = trivial.predict(text)
                 res.escalation_reason = (
                     f"[Gemini Zero-Shot Notice: {str(e)[:30]}] {res.escalation_reason}"
-                )
-                return res
-
-        # OpenAI API
-        elif OPENAI_API_KEY:
-            try:
-                from openai import OpenAI
-
-                client = OpenAI(api_key=OPENAI_API_KEY)
-                model_name = (
-                    self.model_name if "gpt" in self.model_name else "gpt-4o-mini"
-                )
-
-                response = client.beta.chat.completions.parse(
-                    model=model_name,
-                    messages=[
-                        {"role": "system", "content": system_prompt},
-                        {"role": "user", "content": user_prompt},
-                    ],
-                    response_format=AgentPrediction,
-                    temperature=0.0,
-                )
-                return response.choices[0].message.parsed
-            except Exception as e:
-                trivial = TrivialKeywordBaseline()
-                res = trivial.predict(text)
-                res.escalation_reason = (
-                    f"[OpenAI Zero-Shot Notice: {str(e)[:30]}] {res.escalation_reason}"
                 )
                 return res
 

@@ -76,15 +76,13 @@ Output your analysis strictly in structured JSON format matching the schema.
             else "Thanks for reaching out to Apple Support. Please DM us with more details so we can assist."
         )
 
-        from src.config import GEMINI_API_KEY, OPENAI_API_KEY, LLM_PROVIDER
+        from src.config import GEMINI_API_KEY
 
         system_prompt = self._build_system_prompt(retrieved)
         user_prompt = f'Incoming Customer Tweet:\n"{customer_text}"'
 
         # 2. Call Google Gemini with automatic retry
-        if (LLM_PROVIDER == "gemini" and GEMINI_API_KEY) or (
-            GEMINI_API_KEY and not OPENAI_API_KEY
-        ):
+        if GEMINI_API_KEY:
             from google import genai
             from google.genai import types
             import time
@@ -132,42 +130,7 @@ Output your analysis strictly in structured JSON format matching the schema.
                 retrieved_examples_used=retrieved_ids,
             )
 
-        # 3. Call OpenAI
-        elif OPENAI_API_KEY:
-            try:
-                from openai import OpenAI
-
-                client = OpenAI(api_key=OPENAI_API_KEY)
-                model_name = (
-                    self.model_name if "gpt" in self.model_name else "gpt-4o-mini"
-                )
-
-                response = client.beta.chat.completions.parse(
-                    model=model_name,
-                    messages=[
-                        {"role": "system", "content": system_prompt},
-                        {"role": "user", "content": user_prompt},
-                    ],
-                    response_format=AgentPrediction,
-                    temperature=0.1,
-                )
-                prediction = response.choices[0].message.parsed
-                prediction.retrieved_examples_used = retrieved_ids
-                return prediction
-            except Exception as e:
-                print(
-                    f"[!] OpenAI LLM Error: {e}. Falling back to highest similarity resolution."
-                )
-                return AgentPrediction(
-                    intent=IntentType.OTHER_UNCLASSIFIED,
-                    intent_confidence=0.5,
-                    action=EscalationAction.ESCALATE_TO_HUMAN,
-                    escalation_reason=f"LLM failure fallback: {str(e)[:40]}",
-                    draft_reply=top_fallback_reply,
-                    retrieved_examples_used=retrieved_ids,
-                )
-
-        # 4. Default if no API key is provided: Returns highest similarity resolution
+        # 3. Default if no API key is provided: Returns highest similarity resolution
         else:
             return AgentPrediction(
                 intent=IntentType.OTHER_UNCLASSIFIED,

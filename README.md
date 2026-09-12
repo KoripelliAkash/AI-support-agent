@@ -57,9 +57,9 @@ python demo.py
 
 | System | Intent Accuracy | Intent Macro F1 | Escalation Accuracy | Escalation Recall | Judge Groundedness | Judge Tone | Judge Overall |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **1. Trivial Baseline (Regex)** | 76.7% | 70.9% | 100.0% | 100.0% | 3.43 / 5.0 | 3.47 / 5.0 | 3.81 / 5.0 |
-| **2. Simple Baseline (Zero-Shot)** | 73.3% | 63.1% | 76.7% | 33.3% ⚠️ | 4.57 / 5.0 | 4.77 / 5.0 | 4.59 / 5.0 |
-| **3. Proposed AI Agent (RAG + Triage)** | 56.7% | 55.5% | **90.0%** | **100.0%** 🎯 | **4.73 / 5.0** | **4.80 / 5.0** | **4.78 / 5.0** |
+| **1. Trivial Baseline (Regex)** | 76.7% | 70.9% | 100.0% | 100.0% | 3.87 / 5.0 | 3.83 / 5.0 | 4.08 / 5.0 |
+| **2. Simple Baseline (Zero-Shot)** | 70.0% | 60.3% | 83.3% | 66.7% ⚠️ | 4.47 / 5.0 | 4.77 / 5.0 | 4.61 / 5.0 |
+| **3. Proposed AI Agent (RAG + Triage)** | 60.0% | 58.3% | **90.0%** | **100.0%** 🎯 | **4.80 / 5.0** | **4.77 / 5.0** | **4.82 / 5.0** |
 
 ---
 
@@ -79,7 +79,7 @@ python demo.py
                                                  ▼
 ┌─────────────────────────────┐   ┌─────────────────────────────┐
 │ Historical Resolutions Store│──►│ Context Retriever (TF-IDF)  │
-│  (4,000 Apple Support Pairs)│   │  (Top-3 Similar Resolutions)│
+│  (4,000 Apple Support Pairs)│   │  (Sub-20ms Joblib Cached)   │
 └─────────────────────────────┘   └──────────────┬──────────────┘
                                                  │
                                                  ▼
@@ -107,7 +107,8 @@ Hiver-assignment/
 │   │   ├── twcs.csv                   # Raw Kaggle dataset (~2.8M rows)
 │   │   └── sample.csv                 # Raw sample
 │   ├── processed/
-│   │   └── apple_support_pairs.jsonl  # 5,000 paired @AppleSupport conversations
+│   │   ├── apple_support_pairs.jsonl  # 5,000 paired @AppleSupport conversations
+│   │   └── tfidf_index.joblib         # Cached vectorizer index (<20ms startup)
 │   └── golden/
 │       ├── golden_eval_set.json       # 180 hand-annotated test examples
 │       └── annotation_guidelines.md   # Sampling methodology & annotation rules
@@ -115,7 +116,7 @@ Hiver-assignment/
 │   ├── __init__.py
 │   ├── config.py                      # Global constants, paths, intent taxonomy
 │   ├── schemas.py                     # Pydantic schemas (AgentPrediction, JudgeScore)
-│   ├── retriever.py                   # In-memory TF-IDF historical resolution retriever
+│   ├── retriever.py                   # In-memory TF-IDF historical resolution retriever (Joblib cached)
 │   ├── agent.py                       # Main production AI support agent
 │   ├── baselines.py                   # Trivial (Regex) & Simple (Zero-Shot) baselines
 │   └── judge.py                       # LLM-as-a-Judge rubric evaluator
@@ -139,10 +140,10 @@ Hiver-assignment/
 
 ## 📑 Detailed Reports & Analysis Links
 
-- 📄 **[Comprehensive Technical Report](file:///reports/report.md)**: Problem framing, full benchmark results, headline number critique, and next steps.
-- 🔍 **[Top 5 Failure Modes Analysis](file:///reports/failure_modes.md)**: Real customer examples, root-cause hypotheses, and mitigations.
-- 💡 **[Engineering Decision Log](file:///reports/decision_log.md)**: 12 non-obvious technical trade-offs explained.
-- 🏷️ **[Annotation Guidelines](file:///data/golden/annotation_guidelines.md)**: Stratified sampling and intent boundaries.
+- 📄 **[Comprehensive Technical Report](reports/report.md)**: Problem framing, full benchmark results, headline number critique, and next steps.
+- 🔍 **[Top 5 Failure Modes Analysis](reports/failure_modes.md)**: Real customer examples, root-cause hypotheses, and mitigations.
+- 💡 **[Engineering Decision Log](reports/decision_log.md)**: 12 non-obvious technical trade-offs explained.
+- 🏷️ **[Annotation Guidelines](data/golden/annotation_guidelines.md)**: Stratified sampling and intent boundaries.
 
 ---
 

@@ -28,22 +28,11 @@ REPORTS_DIR = BASE_DIR / "reports"
 # Target Brand
 TARGET_BRAND = "AppleSupport"
 
-# API Keys
+# API Keys & LLM Configuration
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-
-# Auto-detect provider if not explicitly set
-default_provider = (
-    "gemini" if GEMINI_API_KEY else ("openai" if OPENAI_API_KEY else "gemini")
-)
-LLM_PROVIDER = os.getenv("LLM_PROVIDER", default_provider).lower()
-
-if LLM_PROVIDER == "gemini":
-    LLM_MODEL = os.getenv("LLM_MODEL", "gemini-3.5-flash-lite")
-    LLM_JUDGE_MODEL = os.getenv("LLM_JUDGE_MODEL", "gemini-3.5-flash-lite")
-else:
-    LLM_MODEL = os.getenv("LLM_MODEL", "gpt-4o-mini")
-    LLM_JUDGE_MODEL = os.getenv("LLM_JUDGE_MODEL", "gpt-4o-mini")
+LLM_PROVIDER = "gemini"
+LLM_MODEL = os.getenv("LLM_MODEL", "gemini-3.5-flash-lite")
+LLM_JUDGE_MODEL = os.getenv("LLM_JUDGE_MODEL", "gemini-3.5-flash-lite")
 
 # Core Defined Intents for AppleSupport
 INTENT_CATEGORIES = {
