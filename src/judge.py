@@ -19,9 +19,9 @@ class LLMSupportJudge:
         customer_text: str,
         predicted: AgentPrediction,
         reference_reply: str = "",
-        ground_truth_escalate: bool = False
+        ground_truth_escalate: bool = False,
     ) -> JudgeScore:
-        from src.config import GEMINI_API_KEY, OPENAI_API_KEY, LLM_PROVIDER
+        from src.config import GEMINI_API_KEY
 
         system_prompt = f"""You are an expert QA Auditor evaluating customer support agents for @AppleSupport.
 Your job is to rigorously evaluate an AI agent's prediction and drafted reply using a 1-5 rubric across 4 dimensions:
@@ -46,13 +46,17 @@ AI Agent Output:
 """
 
         # Gemini API
-        if (LLM_PROVIDER == "gemini" and GEMINI_API_KEY) or (GEMINI_API_KEY and not OPENAI_API_KEY):
+        if GEMINI_API_KEY:
             try:
                 from google import genai
                 from google.genai import types
 
                 client = genai.Client(api_key=GEMINI_API_KEY)
-                model_name = self.model_name if "gemini" in self.model_name else "gemini-3.5-flash-lite"
+                model_name = (
+                    self.model_name
+                    if "gemini" in self.model_name
+                    else "gemini-3.5-flash-lite"
+                )
 
                 response = client.models.generate_content(
                     model=model_name,
@@ -61,17 +65,29 @@ AI Agent Output:
                         system_instruction=system_prompt,
                         response_mime_type="application/json",
                         response_schema=JudgeScore,
-                        temperature=0.0
-                    )
+                        temperature=0.0,
+                    ),
                 )
                 return JudgeScore.model_validate_json(response.text)
             except Exception as e:
                 # Deterministic fallback
-                is_polite = any(w in predicted.draft_reply.lower() for w in ["help", "thanks", "dm", "sorry", "glad"])
+                is_polite = any(
+                    w in predicted.draft_reply.lower()
+                    for w in ["help", "thanks", "dm", "sorry", "glad"]
+                )
                 tone = 5 if is_polite else 3
                 grounded = 4 if len(predicted.draft_reply.split()) > 6 else 2
-                actionable = 4 if ("dm" in predicted.draft_reply.lower() or "settings" in predicted.draft_reply.lower()) else 3
-                escalation_match = (predicted.action.value == "ESCALATE_TO_HUMAN") == ground_truth_escalate
+                actionable = (
+                    4
+                    if (
+                        "dm" in predicted.draft_reply.lower()
+                        or "settings" in predicted.draft_reply.lower()
+                    )
+                    else 3
+                )
+                escalation_match = (
+                    predicted.action.value == "ESCALATE_TO_HUMAN"
+                ) == ground_truth_escalate
                 esc_score = 5 if escalation_match else 2
                 overall = round((tone + grounded + actionable + esc_score) / 4.0, 2)
                 return JudgeScore(
@@ -80,43 +96,28 @@ AI Agent Output:
                     actionability_score=actionable,
                     escalation_accuracy_score=esc_score,
                     overall_score=overall,
-                    critique=f"[Gemini Fallback: {str(e)[:30]}] Rubric evaluation completed."
-                )
-
-        # OpenAI API
-        elif OPENAI_API_KEY:
-            try:
-                from openai import OpenAI
-                client = OpenAI(api_key=OPENAI_API_KEY)
-                model_name = self.model_name if "gpt" in self.model_name else "gpt-4o-mini"
-
-                response = client.beta.chat.completions.parse(
-                    model=model_name,
-                    messages=[
-                        {"role": "system", "content": system_prompt},
-                        {"role": "user", "content": user_prompt}
-                    ],
-                    response_format=JudgeScore,
-                    temperature=0.0
-                )
-                return response.choices[0].message.parsed
-            except Exception as e:
-                return JudgeScore(
-                    groundedness_score=3,
-                    tone_empathy_score=3,
-                    actionability_score=3,
-                    escalation_accuracy_score=3,
-                    overall_score=3.0,
-                    critique=f"Evaluation fallback triggered: {str(e)[:40]}"
+                    critique=f"[Gemini Fallback: {str(e)[:30]}] Rubric evaluation completed.",
                 )
 
         # Offline Heuristic Scoring
         else:
-            is_polite = any(w in predicted.draft_reply.lower() for w in ["help", "thanks", "dm", "sorry", "glad"])
+            is_polite = any(
+                w in predicted.draft_reply.lower()
+                for w in ["help", "thanks", "dm", "sorry", "glad"]
+            )
             tone = 5 if is_polite else 3
             grounded = 4 if len(predicted.draft_reply.split()) > 6 else 2
-            actionable = 4 if ("dm" in predicted.draft_reply.lower() or "settings" in predicted.draft_reply.lower()) else 3
-            escalation_match = (predicted.action.value == "ESCALATE_TO_HUMAN") == ground_truth_escalate
+            actionable = (
+                4
+                if (
+                    "dm" in predicted.draft_reply.lower()
+                    or "settings" in predicted.draft_reply.lower()
+                )
+                else 3
+            )
+            escalation_match = (
+                predicted.action.value == "ESCALATE_TO_HUMAN"
+            ) == ground_truth_escalate
             esc_score = 5 if escalation_match else 2
             overall = round((tone + grounded + actionable + esc_score) / 4.0, 2)
 
@@ -126,5 +127,5 @@ AI Agent Output:
                 actionability_score=actionable,
                 escalation_accuracy_score=esc_score,
                 overall_score=overall,
-                critique="[Offline Rubric Evaluation] Evaluated via heuristic benchmark."
+                critique="[Offline Rubric Evaluation] Evaluated via heuristic benchmark.",
             )

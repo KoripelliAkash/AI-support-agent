@@ -16,18 +16,73 @@ class TrivialKeywordBaseline:
     """
 
     INTENT_KEYWORDS = {
-        IntentType.IOS_UPDATE_PERFORMANCE: [r"\bios\b", r"\bupdate\b", r"\bslow\b", r"\blag\b", r"\bfreez"],
-        IntentType.BATTERY_POWER_DRAIN: [r"\bbattery\b", r"\bdrain\b", r"\bdie\b", r"\bcharg", r"\bpower\b", r"\bshut\s*down\b"],
-        IntentType.ICLOUD_APPLE_ID_ACCESS: [r"\bapple\s*id\b", r"\bicloud\b", r"\bpassword\b", r"\blogin\b", r"\blocked\b", r"\b2fa\b"],
-        IntentType.HARDWARE_PHYSICAL_DAMAGE: [r"\bscreen\b", r"\bcrack\b", r"\bdrop\b", r"\bwater\b", r"\bbroken\b", r"\brepair\b"],
-        IntentType.APP_STORE_BILLING_SUBSCRIPTIONS: [r"\bcharge\b", r"\bbill\b", r"\brefund\b", r"\bsubscription\b", r"\bcancel\b", r"\bpayment\b"],
-        IntentType.CONNECTIVITY_WIFI_BLUETOOTH: [r"\bwifi\b", r"\bwi-fi\b", r"\bbluetooth\b", r"\bairdrop\b", r"\bcellular\b"],
-        IntentType.GENERAL_FEATURE_INQUIRY: [r"\bhow to\b", r"\bhow do i\b", r"\bhow can i\b", r"\btransfer\b", r"\bbackup\b"]
+        IntentType.IOS_UPDATE_PERFORMANCE: [
+            r"\bios\b",
+            r"\bupdate\b",
+            r"\bslow\b",
+            r"\blag\b",
+            r"\bfreez",
+        ],
+        IntentType.BATTERY_POWER_DRAIN: [
+            r"\bbattery\b",
+            r"\bdrain\b",
+            r"\bdie\b",
+            r"\bcharg",
+            r"\bpower\b",
+            r"\bshut\s*down\b",
+        ],
+        IntentType.ICLOUD_APPLE_ID_ACCESS: [
+            r"\bapple\s*id\b",
+            r"\bicloud\b",
+            r"\bpassword\b",
+            r"\blogin\b",
+            r"\blocked\b",
+            r"\b2fa\b",
+        ],
+        IntentType.HARDWARE_PHYSICAL_DAMAGE: [
+            r"\bscreen\b",
+            r"\bcrack\b",
+            r"\bdrop\b",
+            r"\bwater\b",
+            r"\bbroken\b",
+            r"\brepair\b",
+        ],
+        IntentType.APP_STORE_BILLING_SUBSCRIPTIONS: [
+            r"\bcharge\b",
+            r"\bbill\b",
+            r"\brefund\b",
+            r"\bsubscription\b",
+            r"\bcancel\b",
+            r"\bpayment\b",
+        ],
+        IntentType.CONNECTIVITY_WIFI_BLUETOOTH: [
+            r"\bwifi\b",
+            r"\bwi-fi\b",
+            r"\bbluetooth\b",
+            r"\bairdrop\b",
+            r"\bcellular\b",
+        ],
+        IntentType.GENERAL_FEATURE_INQUIRY: [
+            r"\bhow to\b",
+            r"\bhow do i\b",
+            r"\bhow can i\b",
+            r"\btransfer\b",
+            r"\bbackup\b",
+        ],
     }
 
     ESCALATION_KEYWORDS = [
-        r"\brefund\b", r"\bunauthorized\b", r"\bfraud\b", r"\bstolen\b", r"\bhacked\b",
-        r"\brepair\b", r"\bbroken\b", r"\bcracked\b", r"\bsue\b", r"\blegal\b", r"\blawyer\b"
+        r"\brefund\b",
+        r"\bunauthorized\b",
+        r"\bfraud\b",
+        r"\bstolen\b",
+        r"\bhacked\b",
+        r"\brepair\b",
+        r"\bbroken\b",
+        r"\bcracked\b",
+        r"\bsue\b",
+        r"\blegal\b",
+        r"\blawyer\b",
     ]
 
     TEMPLATE_REPLIES = {
@@ -38,7 +93,7 @@ class TrivialKeywordBaseline:
         IntentType.APP_STORE_BILLING_SUBSCRIPTIONS: "We understand your billing concern. You can review your purchase history at reportaproblem.apple.com or reach out via DM.",
         IntentType.CONNECTIVITY_WIFI_BLUETOOTH: "Let's get this connected. Try resetting Network Settings in Settings > General > Reset, or DM us if the issue persists.",
         IntentType.GENERAL_FEATURE_INQUIRY: "We are always happy to help. Send us a DM with more details about your device model so we can assist.",
-        IntentType.OTHER_UNCLASSIFIED: "Thanks for reaching out to Apple Support. Please send us a DM with more details so we can assist you."
+        IntentType.OTHER_UNCLASSIFIED: "Thanks for reaching out to Apple Support. Please send us a DM with more details so we can assist you.",
     }
 
     def predict(self, text: str) -> AgentPrediction:
@@ -52,19 +107,33 @@ class TrivialKeywordBaseline:
                 break
 
         # Check escalation
-        should_escalate = any(re.search(pat, text_lower) for pat in self.ESCALATION_KEYWORDS)
-        action = EscalationAction.ESCALATE_TO_HUMAN if should_escalate else EscalationAction.AUTO_REPLY
-        reason = "Matched high-risk keyword" if should_escalate else "No escalation keywords detected"
+        should_escalate = any(
+            re.search(pat, text_lower) for pat in self.ESCALATION_KEYWORDS
+        )
+        action = (
+            EscalationAction.ESCALATE_TO_HUMAN
+            if should_escalate
+            else EscalationAction.AUTO_REPLY
+        )
+        reason = (
+            "Matched high-risk keyword"
+            if should_escalate
+            else "No escalation keywords detected"
+        )
 
-        reply = self.TEMPLATE_REPLIES.get(predicted_intent, self.TEMPLATE_REPLIES[IntentType.OTHER_UNCLASSIFIED])
+        reply = self.TEMPLATE_REPLIES.get(
+            predicted_intent, self.TEMPLATE_REPLIES[IntentType.OTHER_UNCLASSIFIED]
+        )
 
         return AgentPrediction(
             intent=predicted_intent,
-            intent_confidence=0.5 if predicted_intent != IntentType.OTHER_UNCLASSIFIED else 0.2,
+            intent_confidence=(
+                0.5 if predicted_intent != IntentType.OTHER_UNCLASSIFIED else 0.2
+            ),
             action=action,
             escalation_reason=reason,
             draft_reply=reply,
-            retrieved_examples_used=[]
+            retrieved_examples_used=[],
         )
 
 
@@ -80,7 +149,7 @@ class SimpleZeroShotBaseline:
         self.model_name = model_name
 
     def predict(self, text: str) -> AgentPrediction:
-        from src.config import GEMINI_API_KEY, OPENAI_API_KEY, LLM_PROVIDER
+        from src.config import GEMINI_API_KEY
 
         system_prompt = (
             "You are an Apple Support assistant. Classify the user's intent into one of: "
@@ -90,13 +159,17 @@ class SimpleZeroShotBaseline:
         user_prompt = f"Customer tweet: {text}"
 
         # Gemini API
-        if (LLM_PROVIDER == "gemini" and GEMINI_API_KEY) or (GEMINI_API_KEY and not OPENAI_API_KEY):
+        if GEMINI_API_KEY:
             try:
                 from google import genai
                 from google.genai import types
 
                 client = genai.Client(api_key=GEMINI_API_KEY)
-                model_name = self.model_name if "gemini" in self.model_name else "gemini-3.5-flash-lite"
+                model_name = (
+                    self.model_name
+                    if "gemini" in self.model_name
+                    else "gemini-3.5-flash-lite"
+                )
 
                 response = client.models.generate_content(
                     model=model_name,
@@ -105,37 +178,16 @@ class SimpleZeroShotBaseline:
                         system_instruction=system_prompt,
                         response_mime_type="application/json",
                         response_schema=AgentPrediction,
-                        temperature=0.0
-                    )
+                        temperature=0.0,
+                    ),
                 )
                 return AgentPrediction.model_validate_json(response.text)
             except Exception as e:
                 trivial = TrivialKeywordBaseline()
                 res = trivial.predict(text)
-                res.escalation_reason = f"[Gemini Zero-Shot Notice: {str(e)[:30]}] {res.escalation_reason}"
-                return res
-
-        # OpenAI API
-        elif OPENAI_API_KEY:
-            try:
-                from openai import OpenAI
-                client = OpenAI(api_key=OPENAI_API_KEY)
-                model_name = self.model_name if "gpt" in self.model_name else "gpt-4o-mini"
-
-                response = client.beta.chat.completions.parse(
-                    model=model_name,
-                    messages=[
-                        {"role": "system", "content": system_prompt},
-                        {"role": "user", "content": user_prompt}
-                    ],
-                    response_format=AgentPrediction,
-                    temperature=0.0
+                res.escalation_reason = (
+                    f"[Gemini Zero-Shot Notice: {str(e)[:30]}] {res.escalation_reason}"
                 )
-                return response.choices[0].message.parsed
-            except Exception as e:
-                trivial = TrivialKeywordBaseline()
-                res = trivial.predict(text)
-                res.escalation_reason = f"[OpenAI Zero-Shot Notice: {str(e)[:30]}] {res.escalation_reason}"
                 return res
 
         # Offline fallback if no API key is present
@@ -146,5 +198,5 @@ class SimpleZeroShotBaseline:
                 action=EscalationAction.AUTO_REPLY,
                 escalation_reason="Zero-Shot Baseline (No API key provided).",
                 draft_reply="Thanks for reaching out to Apple Support. Please let us know how we can help in DM.",
-                retrieved_examples_used=[]
+                retrieved_examples_used=[],
             )

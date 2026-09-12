@@ -2,16 +2,16 @@
   {
     "name": "1. Trivial Baseline (Regex)",
     "eval_count": 30,
-    "latency_sec": 105.36,
+    "latency_sec": 75.92,
     "intent_accuracy": 76.7,
     "intent_macro_f1": 70.9,
     "escalation_accuracy": 100.0,
     "escalation_recall": 100.0,
     "escalation_f1": 100.0,
-    "judge_groundedness": 3.43,
-    "judge_tone": 3.47,
-    "judge_actionability": 3.6,
-    "judge_overall": 3.81,
+    "judge_groundedness": 3.87,
+    "judge_tone": 3.83,
+    "judge_actionability": 3.9,
+    "judge_overall": 4.08,
     "failures": [
       {
         "eval_id": 10,
@@ -95,37 +95,26 @@
   {
     "name": "2. Simple Baseline (Zero-Shot)",
     "eval_count": 30,
-    "latency_sec": 197.28,
-    "intent_accuracy": 73.3,
-    "intent_macro_f1": 63.1,
-    "escalation_accuracy": 76.7,
-    "escalation_recall": 33.3,
-    "escalation_f1": 22.2,
-    "judge_groundedness": 4.57,
+    "latency_sec": 159.59,
+    "intent_accuracy": 70.0,
+    "intent_macro_f1": 60.3,
+    "escalation_accuracy": 83.3,
+    "escalation_recall": 66.7,
+    "escalation_f1": 44.4,
+    "judge_groundedness": 4.47,
     "judge_tone": 4.77,
-    "judge_actionability": 4.57,
-    "judge_overall": 4.59,
+    "judge_actionability": 4.4,
+    "judge_overall": 4.61,
     "failures": [
-      {
-        "eval_id": 1,
-        "customer_text": "@AppleSupport Just used your \"chat\" portion on help, it won't let me chat with anyone. My apple ID has been very buggy",
-        "true_intent": "icloud_apple_id_access",
-        "pred_intent": "icloud_apple_id_access",
-        "true_escalate": false,
-        "pred_escalate": true,
-        "pred_reason": "The customer is experiencing issues with both Apple ID functionality and the live chat support channel, requiring direct human assistance.",
-        "draft_reply": "We are sorry to hear you are having trouble reaching our chat team and experiencing issues with your Apple ID. We want to get this sorted out for you right away. Please send us a direct message so we can securely look into your Apple ID status and connect you with a specialist.",
-        "reference_reply": "@user You can follow the steps listed in \"Cancel Order\" section to have this canceled:"
-      },
       {
         "eval_id": 3,
         "customer_text": "@AppleSupport When i go to upload to social media with a slo-mo or screen shotted picture i am getting a loading circle in the middle of the screen and it never finishes loading. Doesnt allow upload to complete",
         "true_intent": "hardware_physical_damage",
-        "pred_intent": "ios_update_performance",
+        "pred_intent": "other_unclassified",
         "true_escalate": false,
         "pred_escalate": false,
-        "pred_reason": "This is a software-related media loading issue that can be resolved with standard troubleshooting steps.",
-        "draft_reply": "We want to make sure your media uploads smoothly. Let's try restarting your device and ensuring your iOS is fully up to date. If the issue continues, please DM us with your device model and iOS version.",
+        "pred_reason": "Issue can be resolved with standard troubleshooting steps like checking app permissions, network connection, or restarting the device.",
+        "draft_reply": "We would love to help get your uploads working smoothly again. Try restarting your device and checking your app permissions for photos, and let us know if the issue persists!",
         "reference_reply": "@user Thank you. Does the issue persist if you restart your device? Also, which software version are you using? You can tap Settings > General > About to locate the software version."
       },
       {
@@ -135,20 +124,9 @@
         "pred_intent": "ios_update_performance",
         "true_escalate": false,
         "pred_escalate": false,
-        "pred_reason": "The user is experiencing a software bug after an iOS update, which can be addressed with standard troubleshooting steps.",
-        "draft_reply": "We are here to help with your iPhone display. Let's try restarting your device to see if that resolves the home screen issue, and feel free to send us a Direct Message if you need further assistance.",
+        "pred_reason": "The user is experiencing a software-related bug after an iOS update, which can be addressed with standard troubleshooting steps.",
+        "draft_reply": "We are here to help! Let us try restarting your iPhone or resetting your home screen layout to see if that resolves the blank screen issue after the iOS update.",
         "reference_reply": "@user We appreciate the update and the troubleshooting you've tried so far. In DM, please let us know if this happens when using a particular app."
-      },
-      {
-        "eval_id": 11,
-        "customer_text": "@AppleSupport hi there, I need to inquire something regarding he refund of an item",
-        "true_intent": "app_store_billing_subscriptions",
-        "pred_intent": "app_store_billing_subscriptions",
-        "true_escalate": true,
-        "pred_escalate": false,
-        "pred_reason": "The request is a standard billing inquiry about refunds, which can be addressed automatically with a link to report a problem.",
-        "draft_reply": "We can certainly help with that! To request a refund for an App Store or iTunes purchase, please visit reportaproblem.apple.com, sign in with your Apple ID, and select \"Request a refund.\"",
-        "reference_reply": "@user For questions about refunds, our iTunes Store would be the best team to help. Reach out to them here:"
       },
       {
         "eval_id": 19,
@@ -157,8 +135,8 @@
         "pred_intent": "other_unclassified",
         "true_escalate": false,
         "pred_escalate": true,
-        "pred_reason": "The customer is expressing frustration after previous support attempts failed to resolve their unspecified issue.",
-        "draft_reply": "We are very sorry for the frustration. Let us connect you with a senior advisor who can take a closer look and help get this resolved for you right away.",
+        "pred_reason": "The customer has already contacted support representatives without resolution and is expressing frustration on social media, requiring specialized human intervention.",
+        "draft_reply": "We are very sorry for the frustration. Let us connect you with a senior specialist who can take a closer look and help resolve this for you.",
         "reference_reply": "@user We'd like to see what we can do to assist. We received your DM, and we'll be following up with you there shortly."
       },
       {
@@ -169,7 +147,7 @@
         "true_escalate": false,
         "pred_escalate": true,
         "pred_reason": "The customer is expressing extreme dissatisfaction with customer service and requires immediate human intervention to de-escalate the situation.",
-        "draft_reply": "We are truly sorry to hear about your frustrating experience with our support team, and we would love the opportunity to make this right for you. Please send us a direct message with more details so our senior support team can assist you immediately.",
+        "draft_reply": "We are truly sorry to hear about your frustration with our support team, and we want to help make this right. Please send us a Direct Message with the details of your issue so we can assist you further.",
         "reference_reply": "@user Certainly not what we want you to experience! Please let us know what's going on and how we can help in a DM."
       },
       {
@@ -179,9 +157,20 @@
         "pred_intent": "hardware_physical_damage",
         "true_escalate": true,
         "pred_escalate": false,
-        "pred_reason": "The customer is asking a standard hardware repair question that can be directly addressed with Apple Support repair options.",
-        "draft_reply": "Hello! For a cracked screen, Apple replaces the entire display assembly to ensure the highest quality and safety. You can set up a repair at an Apple Store or an Authorized Service Provider by visiting support.apple.com/iphone/repair/service.",
+        "pred_reason": "Customer is asking a straightforward hardware repair question about screen replacement options.",
+        "draft_reply": "Hello! For a cracked screen, Apple replaces the entire display assembly to ensure the highest quality and safety. You can set up a repair at an Apple Store or an Apple Authorized Service Provider through support.apple.com/iphone/repair/service.",
         "reference_reply": "@user We're glad to look into all options with you to have your iPhone serviced. Please DM us to proceed."
+      },
+      {
+        "eval_id": 23,
+        "customer_text": "WTF IS WRONG WITH MY IPHONE @user ??!!",
+        "true_intent": "other_unclassified",
+        "pred_intent": "other_unclassified",
+        "true_escalate": false,
+        "pred_escalate": true,
+        "pred_reason": "The customer is using profanity and expressing high frustration without specifying the technical issue, requiring a human agent to de-escalate and assist.",
+        "draft_reply": "We understand you're frustrated, and we'd love to help get things working properly for you. Could you please send us a Direct Message with a few more details about what's happening with your iPhone?",
+        "reference_reply": "@user We're here to help. Let us know exactly what's going on with your phone in DM."
       },
       {
         "eval_id": 24,
@@ -189,10 +178,21 @@
         "true_intent": "ios_update_performance",
         "pred_intent": "other_unclassified",
         "true_escalate": false,
-        "pred_escalate": true,
-        "pred_reason": "The customer is expressing high frustration with profanity regarding an unspecified glitch, requiring human intervention.",
-        "draft_reply": "We understand your frustration and want to help look into this issue right away. Could you please send us a Direct Message with a few more details about what you're experiencing?",
+        "pred_escalate": false,
+        "pred_reason": "[Gemini Zero-Shot Notice: 429 RESOURCE_EXHAUSTED. {'erro] No escalation keywords detected",
+        "draft_reply": "Thanks for reaching out to Apple Support. Please send us a DM with more details so we can assist you.",
         "reference_reply": "@user We’re available to help. Which device model and operating system are you using? Let us know in DM."
+      },
+      {
+        "eval_id": 25,
+        "customer_text": "@AppleSupport Network connection ✅ Latest software ✅ AppStore setting ✅ Date and time sync ✅",
+        "true_intent": "app_store_billing_subscriptions",
+        "pred_intent": "other_unclassified",
+        "true_escalate": false,
+        "pred_escalate": false,
+        "pred_reason": "[Gemini Zero-Shot Notice: 429 RESOURCE_EXHAUSTED. {'erro] No escalation keywords detected",
+        "draft_reply": "Thanks for reaching out to Apple Support. Please send us a DM with more details so we can assist you.",
+        "reference_reply": "@user OK. Let us know in DM if this continues after restarting your iPhone:"
       },
       {
         "eval_id": 26,
@@ -202,7 +202,7 @@
         "true_escalate": false,
         "pred_escalate": false,
         "pred_reason": "The issue is a standard software update glitch related to beta profiles that can be resolved automatically.",
-        "draft_reply": "Thanks for reaching out! To see the final release of macOS, you may need to remove the beta profile from your System Preferences under Software Update, then restart your Mac and check for updates again.",
+        "draft_reply": "Thanks for reaching out. To see the final release of macOS, you may need to remove the beta profile from your System Preferences under Software Update and restart your Mac. Let us know if you still need assistance!",
         "reference_reply": "@user We want you to be able to update your Mac. Please send us a DM, so we can take a closer look."
       },
       {
@@ -212,8 +212,8 @@
         "pred_intent": "general_feature_inquiry",
         "true_escalate": false,
         "pred_escalate": false,
-        "pred_reason": "Customer is asking a straightforward compatibility question about purchasing an iPhone with a specific carrier option for international use.",
-        "draft_reply": "Hello! An iPhone purchased as 'Unlocked with Sprint SIM' is typically carrier-unlocked for domestic and international use, but it requires an initial activation with a US carrier. For hassle-free international travel and guaranteed compatibility with local carriers like Telenor in Bulgaria, we recommend purchasing the 'SIM-free' option if available. Let us know if you have any other questions!",
+        "pred_reason": "The user is asking a straightforward compatibility question about purchasing an iPhone with a specific carrier option for international travel.",
+        "draft_reply": "Hello! To use the iPhone with an international carrier like Telenor in Bulgaria, you will want to ensure the device is fully unlocked for use with any compatible carrier. We recommend checking the specific carrier terms at the time of purchase or choosing a SIM-free option if available to ensure seamless international compatibility. Safe travels!",
         "reference_reply": "@user Hi there. We've received your DM. We will follow up with you there shortly."
       },
       {
@@ -223,8 +223,8 @@
         "pred_intent": "app_store_billing_subscriptions",
         "true_escalate": false,
         "pred_escalate": true,
-        "pred_reason": "The customer is expressing high frustration over a recurring hardware or software phone issue preventing app downloads despite prior support calls.",
-        "draft_reply": "We understand your frustration regarding this app download issue with your recent device, and we want to help get this sorted out for you as quickly as possible. Please send us a Direct Message so our senior support team can review your case history and provide a proper resolution.",
+        "pred_reason": "The customer is experiencing unresolved app download issues on a recent device and has expressed strong frustration after prior phone support.",
+        "draft_reply": "We hear your frustration and want to get this resolved for you right away since you've already spoken with our phone support team. Let's connect you with a senior advisor who can look further into this app download issue with your device.",
         "reference_reply": "@user Thanks so much for reaching back out. So we can look closer into this with you, reach out to us in DM using the link below and we'll continue from there."
       }
     ]
@@ -232,16 +232,16 @@
   {
     "name": "3. Apple Support AI Agent (RAG + Triage)",
     "eval_count": 30,
-    "latency_sec": 226.39,
-    "intent_accuracy": 56.7,
-    "intent_macro_f1": 55.5,
+    "latency_sec": 230.17,
+    "intent_accuracy": 60.0,
+    "intent_macro_f1": 58.3,
     "escalation_accuracy": 90.0,
     "escalation_recall": 100.0,
     "escalation_f1": 66.7,
-    "judge_groundedness": 4.73,
-    "judge_tone": 4.8,
-    "judge_actionability": 4.73,
-    "judge_overall": 4.78,
+    "judge_groundedness": 4.8,
+    "judge_tone": 4.77,
+    "judge_actionability": 4.87,
+    "judge_overall": 4.82,
     "failures": [
       {
         "eval_id": 2,
@@ -250,8 +250,8 @@
         "pred_intent": "general_feature_inquiry",
         "true_escalate": false,
         "pred_escalate": false,
-        "pred_reason": "The issue involves a specific developer inquiry about iCloud file behavior that can be investigated via DM for further details.",
-        "draft_reply": "@user We'd like to know more. DM us the details and we'll go from there.",
+        "pred_reason": "Standard inquiry regarding iCloud Drive file system behavior that can be handled with clarification and DM follow-up.",
+        "draft_reply": "@user We'd like to know more about what you're seeing with your iCloud Drive files. DM us the details and we'll go from there.",
         "reference_reply": "@user We'd like to know more. DM us the details and we'll go from there."
       },
       {
@@ -261,20 +261,9 @@
         "pred_intent": "ios_update_performance",
         "true_escalate": false,
         "pred_escalate": false,
-        "pred_reason": "Standard troubleshooting for media upload issues can be handled via initial public auto-reply.",
+        "pred_reason": "Standard troubleshooting for media upload issues can be handled via initial automated replies and clarification questions.",
         "draft_reply": "@user Thank you. Does the issue persist if you restart your device? Also, which software version are you using? You can tap Settings > General > About to locate the software version.",
         "reference_reply": "@user Thank you. Does the issue persist if you restart your device? Also, which software version are you using? You can tap Settings > General > About to locate the software version."
-      },
-      {
-        "eval_id": 4,
-        "customer_text": "@AppleSupport can you tell me why the new updates now make my iphone6s die at 40% battery? Or if charged overnight to 100% it dies as soon as its unlocked",
-        "true_intent": "battery_power_drain",
-        "pred_intent": "ios_update_performance",
-        "true_escalate": false,
-        "pred_escalate": false,
-        "pred_reason": "Standard troubleshooting for battery performance after an update can be addressed via initial public troubleshooting and clarification questions.",
-        "draft_reply": "@user Battery life is important. We'd be happy to look into this with you. Can you provide us the iOS version you're using? This can be located in Settings > General > About > Version.",
-        "reference_reply": "@user Battery life is important. We'd be happy to look into this with you. Can you provide us the iOS version you're using? This can be located in Settings > General > About > Version."
       },
       {
         "eval_id": 6,
@@ -283,8 +272,8 @@
         "pred_intent": "ios_update_performance",
         "true_escalate": false,
         "pred_escalate": false,
-        "pred_reason": "Standard troubleshooting for iOS update bugs can be handled via automated support and DM inquiry.",
-        "draft_reply": "@user We appreciate the update and the troubleshooting you've tried so far. In DM, please let us know if this happens when using a particular app.",
+        "pred_reason": "Standard troubleshooting for an iOS update bug can be handled via initial clarification and DM follow-up.",
+        "draft_reply": "@user We'd be happy to look into this with you. In DM, please let us know if this happens when using a particular app.",
         "reference_reply": "@user We appreciate the update and the troubleshooting you've tried so far. In DM, please let us know if this happens when using a particular app."
       },
       {
@@ -294,7 +283,7 @@
         "pred_intent": "general_feature_inquiry",
         "true_escalate": false,
         "pred_escalate": false,
-        "pred_reason": "Standard feature guidance and troubleshooting can be provided via auto-reply.",
+        "pred_reason": "Standard feature troubleshooting and inquiry that can be handled via initial clarifying questions and support guidance.",
         "draft_reply": "@user What type of issue are you running into when you attempt to use the TV app for videos? We'll offer all the help we can in getting you back to video enjoyment.",
         "reference_reply": "@user What type of issue are you running into when you attempt to use the TV app for videos? We'll offer all the help we can in getting you back to video enjoyment."
       },
@@ -305,7 +294,7 @@
         "pred_intent": "other_unclassified",
         "true_escalate": false,
         "pred_escalate": true,
-        "pred_reason": "The customer has experienced repeated unresolved issues after speaking with multiple representatives.",
+        "pred_reason": "The customer has experienced repeated unresolved issues after speaking with multiple support representatives.",
         "draft_reply": "@user We'd like to see what we can do to assist. We received your DM, and we'll be following up with you there shortly.",
         "reference_reply": "@user We'd like to see what we can do to assist. We received your DM, and we'll be following up with you there shortly."
       },
@@ -316,7 +305,7 @@
         "pred_intent": "other_unclassified",
         "true_escalate": false,
         "pred_escalate": true,
-        "pred_reason": "The customer is expressing severe frustration and anger regarding customer service and unresolved issues, requiring human intervention.",
+        "pred_reason": "The customer is expressing severe frustration and anger regarding customer service and unresolved support issues.",
         "draft_reply": "@user Certainly not what we want you to experience! Please let us know what's going on and how we can help in a DM.",
         "reference_reply": "@user Certainly not what we want you to experience! Please let us know what's going on and how we can help in a DM."
       },
@@ -327,7 +316,7 @@
         "pred_intent": "ios_update_performance",
         "true_escalate": false,
         "pred_escalate": false,
-        "pred_reason": "Standard troubleshooting for post-update battery issues can be handled via initial DM triage.",
+        "pred_reason": "Standard troubleshooting for post-update battery drain can be handled via initial DM triage.",
         "draft_reply": "@user Hi there! We can definitely look into this with you. Send us a DM and we'll investigate this further.",
         "reference_reply": "@user HI there! We can definitely look into this with you. Send us a DM and we'll investigate this further."
       },
@@ -338,7 +327,7 @@
         "pred_intent": "connectivity_wifi_bluetooth",
         "true_escalate": false,
         "pred_escalate": false,
-        "pred_reason": "Standard troubleshooting checklist provided by customer, ready for a quick follow-up restart recommendation or DM invitation.",
+        "pred_reason": "Standard connectivity troubleshooting check where public steps and DM follow-up are appropriate.",
         "draft_reply": "@user OK. Let us know in DM if this continues after restarting your iPhone:",
         "reference_reply": "@user OK. Let us know in DM if this continues after restarting your iPhone:"
       },
@@ -349,7 +338,7 @@
         "pred_intent": "ios_update_performance",
         "true_escalate": false,
         "pred_escalate": false,
-        "pred_reason": "Standard troubleshooting for a beta update stickiness issue that can be handled via initial DM triage.",
+        "pred_reason": "Standard troubleshooting for beta update detachment requiring account/device details best handled via DM.",
         "draft_reply": "@user We want you to be able to update your Mac. Please send us a DM, so we can take a closer look.",
         "reference_reply": "@user We want you to be able to update your Mac. Please send us a DM, so we can take a closer look."
       },
@@ -360,7 +349,7 @@
         "pred_intent": "ios_update_performance",
         "true_escalate": false,
         "pred_escalate": false,
-        "pred_reason": "Issue is a software performance interaction with iCloud on a specific iOS version that can be addressed via standard support links or directed to specialized app support.",
+        "pred_reason": "Issue is a standard troubleshooting or app-specific behavior on a specific iOS version that can be addressed via public support resources or redirected to the specialized team.",
         "draft_reply": "@user If you're still having troubles with GarageBand and iCloud, be sure to follow up with our team that helps with GarageBand here: https://support.apple.com/garageband",
         "reference_reply": "@user If you're still having troubles, be sure to follow up with our team that helps with GarageBand here:"
       },
@@ -371,7 +360,7 @@
         "pred_intent": "general_feature_inquiry",
         "true_escalate": false,
         "pred_escalate": false,
-        "pred_reason": "General compatibility question that can be addressed via standard product information and direct messaging.",
+        "pred_reason": "Standard inquiry regarding carrier compatibility and purchase options that can be addressed via direct message guidance.",
         "draft_reply": "@user Hi there. We've received your DM. We will follow up with you there shortly.",
         "reference_reply": "@user Hi there. We've received your DM. We will follow up with you there shortly."
       },
@@ -382,8 +371,8 @@
         "pred_intent": "app_store_billing_subscriptions",
         "true_escalate": false,
         "pred_escalate": true,
-        "pred_reason": "The customer is frustrated, has an unresolved issue with downloading apps, and was previously advised by phone support that it requires hardware or escalated troubleshooting.",
-        "draft_reply": "@user Thanks so much for reaching back out. We're sorry for the frustration and want to help get this sorted. So we can look closer into your phone issue with you, please reach out to us in DM and we'll continue from there.",
+        "pred_reason": "The customer is experiencing a persistent app download issue after previous phone support and expresses high frustration.",
+        "draft_reply": "@user We hear your frustration and want to get this resolved for you. Since you've already tried troubleshooting, please send us a DM so we can look closer into your device and account settings with you.",
         "reference_reply": "@user Thanks so much for reaching back out. So we can look closer into this with you, reach out to us in DM using the link below and we'll continue from there."
       }
     ]
