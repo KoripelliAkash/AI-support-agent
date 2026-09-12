@@ -1,0 +1,12 @@
+.venv/
+.env
+
+data/raw/twcs.csv
+*.csv.zip
+
+__pycache__/
+*.pyc
+
+.vscode/
+.idea/
+.DS_Store

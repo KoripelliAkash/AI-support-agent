@@ -1,0 +1,391 @@
+[
+  {
+    "name": "1. Trivial Baseline (Regex)",
+    "eval_count": 30,
+    "latency_sec": 105.36,
+    "intent_accuracy": 76.7,
+    "intent_macro_f1": 70.9,
+    "escalation_accuracy": 100.0,
+    "escalation_recall": 100.0,
+    "escalation_f1": 100.0,
+    "judge_groundedness": 3.43,
+    "judge_tone": 3.47,
+    "judge_actionability": 3.6,
+    "judge_overall": 3.81,
+    "failures": [
+      {
+        "eval_id": 10,
+        "customer_text": "hi @AppleSupport i have a fully upgraded iphone SE. why can’t i download or use the video app to watch even SD videos (on this device) that i already own? why can i only watch them on my pc laptop *that cost less than this phone did*?",
+        "true_intent": "app_store_billing_subscriptions",
+        "pred_intent": "other_unclassified",
+        "true_escalate": false,
+        "pred_escalate": false,
+        "pred_reason": "No escalation keywords detected",
+        "draft_reply": "Thanks for reaching out to Apple Support. Please send us a DM with more details so we can assist you.",
+        "reference_reply": "@user What type of issue are you running into when you attempt to use the TV app for videos? We'll offer all the help we can in getting you back to video enjoyment."
+      },
+      {
+        "eval_id": 18,
+        "customer_text": "Hey, @user, is your server down? I can't access the App Store",
+        "true_intent": "app_store_billing_subscriptions",
+        "pred_intent": "other_unclassified",
+        "true_escalate": false,
+        "pred_escalate": false,
+        "pred_reason": "No escalation keywords detected",
+        "draft_reply": "Thanks for reaching out to Apple Support. Please send us a DM with more details so we can assist you.",
+        "reference_reply": "@user Hello. Check our system status here: Have you tried on another Wi-Fi network by chance?"
+      },
+      {
+        "eval_id": 20,
+        "customer_text": "I am amazingly and surprisingly disgusted at @user and their customer service. Even though I’m trying to spend money on them, I’m not good enough for their 24 hour support line and the online support members are horrible.",
+        "true_intent": "app_store_billing_subscriptions",
+        "pred_intent": "other_unclassified",
+        "true_escalate": false,
+        "pred_escalate": false,
+        "pred_reason": "No escalation keywords detected",
+        "draft_reply": "Thanks for reaching out to Apple Support. Please send us a DM with more details so we can assist you.",
+        "reference_reply": "@user Certainly not what we want you to experience! Please let us know what's going on and how we can help in a DM."
+      },
+      {
+        "eval_id": 24,
+        "customer_text": "@user got people out here looking crazy with this damn glitch!!! Fix this shit now!!!",
+        "true_intent": "ios_update_performance",
+        "pred_intent": "other_unclassified",
+        "true_escalate": false,
+        "pred_escalate": false,
+        "pred_reason": "No escalation keywords detected",
+        "draft_reply": "Thanks for reaching out to Apple Support. Please send us a DM with more details so we can assist you.",
+        "reference_reply": "@user We’re available to help. Which device model and operating system are you using? Let us know in DM."
+      },
+      {
+        "eval_id": 25,
+        "customer_text": "@AppleSupport Network connection ✅ Latest software ✅ AppStore setting ✅ Date and time sync ✅",
+        "true_intent": "app_store_billing_subscriptions",
+        "pred_intent": "other_unclassified",
+        "true_escalate": false,
+        "pred_escalate": false,
+        "pred_reason": "No escalation keywords detected",
+        "draft_reply": "Thanks for reaching out to Apple Support. Please send us a DM with more details so we can assist you.",
+        "reference_reply": "@user OK. Let us know in DM if this continues after restarting your iPhone:"
+      },
+      {
+        "eval_id": 26,
+        "customer_text": "@user @user I’m also stuck on 10.13.1 beta (17B46a) and won’t show 10.13.1 final to show in App Store updates. @AppleSupport",
+        "true_intent": "app_store_billing_subscriptions",
+        "pred_intent": "other_unclassified",
+        "true_escalate": false,
+        "pred_escalate": false,
+        "pred_reason": "No escalation keywords detected",
+        "draft_reply": "Thanks for reaching out to Apple Support. Please send us a DM with more details so we can assist you.",
+        "reference_reply": "@user We want you to be able to update your Mac. Please send us a DM, so we can take a closer look."
+      },
+      {
+        "eval_id": 30,
+        "customer_text": "@AppleSupport I have exhausted all options to try and sort an issue I have with my phone and not being able to download any new apps. I have only had this phone since June and I have been advised by someone in your support call team it’s a phone issue. Fix up Apple! I’m not happy",
+        "true_intent": "general_feature_inquiry",
+        "pred_intent": "other_unclassified",
+        "true_escalate": false,
+        "pred_escalate": false,
+        "pred_reason": "No escalation keywords detected",
+        "draft_reply": "Thanks for reaching out to Apple Support. Please send us a DM with more details so we can assist you.",
+        "reference_reply": "@user Thanks so much for reaching back out. So we can look closer into this with you, reach out to us in DM using the link below and we'll continue from there."
+      }
+    ]
+  },
+  {
+    "name": "2. Simple Baseline (Zero-Shot)",
+    "eval_count": 30,
+    "latency_sec": 197.28,
+    "intent_accuracy": 73.3,
+    "intent_macro_f1": 63.1,
+    "escalation_accuracy": 76.7,
+    "escalation_recall": 33.3,
+    "escalation_f1": 22.2,
+    "judge_groundedness": 4.57,
+    "judge_tone": 4.77,
+    "judge_actionability": 4.57,
+    "judge_overall": 4.59,
+    "failures": [
+      {
+        "eval_id": 1,
+        "customer_text": "@AppleSupport Just used your \"chat\" portion on help, it won't let me chat with anyone. My apple ID has been very buggy",
+        "true_intent": "icloud_apple_id_access",
+        "pred_intent": "icloud_apple_id_access",
+        "true_escalate": false,
+        "pred_escalate": true,
+        "pred_reason": "The customer is experiencing issues with both Apple ID functionality and the live chat support channel, requiring direct human assistance.",
+        "draft_reply": "We are sorry to hear you are having trouble reaching our chat team and experiencing issues with your Apple ID. We want to get this sorted out for you right away. Please send us a direct message so we can securely look into your Apple ID status and connect you with a specialist.",
+        "reference_reply": "@user You can follow the steps listed in \"Cancel Order\" section to have this canceled:"
+      },
+      {
+        "eval_id": 3,
+        "customer_text": "@AppleSupport When i go to upload to social media with a slo-mo or screen shotted picture i am getting a loading circle in the middle of the screen and it never finishes loading. Doesnt allow upload to complete",
+        "true_intent": "hardware_physical_damage",
+        "pred_intent": "ios_update_performance",
+        "true_escalate": false,
+        "pred_escalate": false,
+        "pred_reason": "This is a software-related media loading issue that can be resolved with standard troubleshooting steps.",
+        "draft_reply": "We want to make sure your media uploads smoothly. Let's try restarting your device and ensuring your iOS is fully up to date. If the issue continues, please DM us with your device model and iOS version.",
+        "reference_reply": "@user Thank you. Does the issue persist if you restart your device? Also, which software version are you using? You can tap Settings > General > About to locate the software version."
+      },
+      {
+        "eval_id": 6,
+        "customer_text": "@user, please! What is going on? My iPhone’s home screen keeps going blank daily since I updated it to #ios1112. Has anyone else reported this as a bug? When will it be fixed? Help. @AppleSupport",
+        "true_intent": "hardware_physical_damage",
+        "pred_intent": "ios_update_performance",
+        "true_escalate": false,
+        "pred_escalate": false,
+        "pred_reason": "The user is experiencing a software bug after an iOS update, which can be addressed with standard troubleshooting steps.",
+        "draft_reply": "We are here to help with your iPhone display. Let's try restarting your device to see if that resolves the home screen issue, and feel free to send us a Direct Message if you need further assistance.",
+        "reference_reply": "@user We appreciate the update and the troubleshooting you've tried so far. In DM, please let us know if this happens when using a particular app."
+      },
+      {
+        "eval_id": 11,
+        "customer_text": "@AppleSupport hi there, I need to inquire something regarding he refund of an item",
+        "true_intent": "app_store_billing_subscriptions",
+        "pred_intent": "app_store_billing_subscriptions",
+        "true_escalate": true,
+        "pred_escalate": false,
+        "pred_reason": "The request is a standard billing inquiry about refunds, which can be addressed automatically with a link to report a problem.",
+        "draft_reply": "We can certainly help with that! To request a refund for an App Store or iTunes purchase, please visit reportaproblem.apple.com, sign in with your Apple ID, and select \"Request a refund.\"",
+        "reference_reply": "@user For questions about refunds, our iTunes Store would be the best team to help. Reach out to them here:"
+      },
+      {
+        "eval_id": 19,
+        "customer_text": "@AppleSupport @user I️ am also having this problem! And I’ve contacted Apple support and neither rep seemed to have a clue how to fix it!",
+        "true_intent": "general_feature_inquiry",
+        "pred_intent": "other_unclassified",
+        "true_escalate": false,
+        "pred_escalate": true,
+        "pred_reason": "The customer is expressing frustration after previous support attempts failed to resolve their unspecified issue.",
+        "draft_reply": "We are very sorry for the frustration. Let us connect you with a senior advisor who can take a closer look and help get this resolved for you right away.",
+        "reference_reply": "@user We'd like to see what we can do to assist. We received your DM, and we'll be following up with you there shortly."
+      },
+      {
+        "eval_id": 20,
+        "customer_text": "I am amazingly and surprisingly disgusted at @user and their customer service. Even though I’m trying to spend money on them, I’m not good enough for their 24 hour support line and the online support members are horrible.",
+        "true_intent": "app_store_billing_subscriptions",
+        "pred_intent": "other_unclassified",
+        "true_escalate": false,
+        "pred_escalate": true,
+        "pred_reason": "The customer is expressing extreme dissatisfaction with customer service and requires immediate human intervention to de-escalate the situation.",
+        "draft_reply": "We are truly sorry to hear about your frustrating experience with our support team, and we would love the opportunity to make this right for you. Please send us a direct message with more details so our senior support team can assist you immediately.",
+        "reference_reply": "@user Certainly not what we want you to experience! Please let us know what's going on and how we can help in a DM."
+      },
+      {
+        "eval_id": 21,
+        "customer_text": "@AppleSupport My iPhone screen glass is completely cracked. Still the touch screen works. Can I change the glass alone or the display too?",
+        "true_intent": "hardware_physical_damage",
+        "pred_intent": "hardware_physical_damage",
+        "true_escalate": true,
+        "pred_escalate": false,
+        "pred_reason": "The customer is asking a standard hardware repair question that can be directly addressed with Apple Support repair options.",
+        "draft_reply": "Hello! For a cracked screen, Apple replaces the entire display assembly to ensure the highest quality and safety. You can set up a repair at an Apple Store or an Authorized Service Provider by visiting support.apple.com/iphone/repair/service.",
+        "reference_reply": "@user We're glad to look into all options with you to have your iPhone serviced. Please DM us to proceed."
+      },
+      {
+        "eval_id": 24,
+        "customer_text": "@user got people out here looking crazy with this damn glitch!!! Fix this shit now!!!",
+        "true_intent": "ios_update_performance",
+        "pred_intent": "other_unclassified",
+        "true_escalate": false,
+        "pred_escalate": true,
+        "pred_reason": "The customer is expressing high frustration with profanity regarding an unspecified glitch, requiring human intervention.",
+        "draft_reply": "We understand your frustration and want to help look into this issue right away. Could you please send us a Direct Message with a few more details about what you're experiencing?",
+        "reference_reply": "@user We’re available to help. Which device model and operating system are you using? Let us know in DM."
+      },
+      {
+        "eval_id": 26,
+        "customer_text": "@user @user I’m also stuck on 10.13.1 beta (17B46a) and won’t show 10.13.1 final to show in App Store updates. @AppleSupport",
+        "true_intent": "app_store_billing_subscriptions",
+        "pred_intent": "ios_update_performance",
+        "true_escalate": false,
+        "pred_escalate": false,
+        "pred_reason": "The issue is a standard software update glitch related to beta profiles that can be resolved automatically.",
+        "draft_reply": "Thanks for reaching out! To see the final release of macOS, you may need to remove the beta profile from your System Preferences under Software Update, then restart your Mac and check for updates again.",
+        "reference_reply": "@user We want you to be able to update your Mac. Please send us a DM, so we can take a closer look."
+      },
+      {
+        "eval_id": 29,
+        "customer_text": "@AppleSupport Hello, I'm planning to buy Iphone X from apple store and i have a trip to Europe - Bulgaria. There is a One-time payment option which says Unlocked iPhone with Sprint SIM for 999. Will I be able to use the phone with Telenor sim?",
+        "true_intent": "app_store_billing_subscriptions",
+        "pred_intent": "general_feature_inquiry",
+        "true_escalate": false,
+        "pred_escalate": false,
+        "pred_reason": "Customer is asking a straightforward compatibility question about purchasing an iPhone with a specific carrier option for international use.",
+        "draft_reply": "Hello! An iPhone purchased as 'Unlocked with Sprint SIM' is typically carrier-unlocked for domestic and international use, but it requires an initial activation with a US carrier. For hassle-free international travel and guaranteed compatibility with local carriers like Telenor in Bulgaria, we recommend purchasing the 'SIM-free' option if available. Let us know if you have any other questions!",
+        "reference_reply": "@user Hi there. We've received your DM. We will follow up with you there shortly."
+      },
+      {
+        "eval_id": 30,
+        "customer_text": "@AppleSupport I have exhausted all options to try and sort an issue I have with my phone and not being able to download any new apps. I have only had this phone since June and I have been advised by someone in your support call team it’s a phone issue. Fix up Apple! I’m not happy",
+        "true_intent": "general_feature_inquiry",
+        "pred_intent": "app_store_billing_subscriptions",
+        "true_escalate": false,
+        "pred_escalate": true,
+        "pred_reason": "The customer is expressing high frustration over a recurring hardware or software phone issue preventing app downloads despite prior support calls.",
+        "draft_reply": "We understand your frustration regarding this app download issue with your recent device, and we want to help get this sorted out for you as quickly as possible. Please send us a Direct Message so our senior support team can review your case history and provide a proper resolution.",
+        "reference_reply": "@user Thanks so much for reaching back out. So we can look closer into this with you, reach out to us in DM using the link below and we'll continue from there."
+      }
+    ]
+  },
+  {
+    "name": "3. Apple Support AI Agent (RAG + Triage)",
+    "eval_count": 30,
+    "latency_sec": 226.39,
+    "intent_accuracy": 56.7,
+    "intent_macro_f1": 55.5,
+    "escalation_accuracy": 90.0,
+    "escalation_recall": 100.0,
+    "escalation_f1": 66.7,
+    "judge_groundedness": 4.73,
+    "judge_tone": 4.8,
+    "judge_actionability": 4.73,
+    "judge_overall": 4.78,
+    "failures": [
+      {
+        "eval_id": 2,
+        "customer_text": ".@AppleSupport So I can use the Python call os.utimes() to modify file timestamps anywhere EXCEPT files in my iCloud Drive Folder :-(",
+        "true_intent": "icloud_apple_id_access",
+        "pred_intent": "general_feature_inquiry",
+        "true_escalate": false,
+        "pred_escalate": false,
+        "pred_reason": "The issue involves a specific developer inquiry about iCloud file behavior that can be investigated via DM for further details.",
+        "draft_reply": "@user We'd like to know more. DM us the details and we'll go from there.",
+        "reference_reply": "@user We'd like to know more. DM us the details and we'll go from there."
+      },
+      {
+        "eval_id": 3,
+        "customer_text": "@AppleSupport When i go to upload to social media with a slo-mo or screen shotted picture i am getting a loading circle in the middle of the screen and it never finishes loading. Doesnt allow upload to complete",
+        "true_intent": "hardware_physical_damage",
+        "pred_intent": "ios_update_performance",
+        "true_escalate": false,
+        "pred_escalate": false,
+        "pred_reason": "Standard troubleshooting for media upload issues can be handled via initial public auto-reply.",
+        "draft_reply": "@user Thank you. Does the issue persist if you restart your device? Also, which software version are you using? You can tap Settings > General > About to locate the software version.",
+        "reference_reply": "@user Thank you. Does the issue persist if you restart your device? Also, which software version are you using? You can tap Settings > General > About to locate the software version."
+      },
+      {
+        "eval_id": 4,
+        "customer_text": "@AppleSupport can you tell me why the new updates now make my iphone6s die at 40% battery? Or if charged overnight to 100% it dies as soon as its unlocked",
+        "true_intent": "battery_power_drain",
+        "pred_intent": "ios_update_performance",
+        "true_escalate": false,
+        "pred_escalate": false,
+        "pred_reason": "Standard troubleshooting for battery performance after an update can be addressed via initial public troubleshooting and clarification questions.",
+        "draft_reply": "@user Battery life is important. We'd be happy to look into this with you. Can you provide us the iOS version you're using? This can be located in Settings > General > About > Version.",
+        "reference_reply": "@user Battery life is important. We'd be happy to look into this with you. Can you provide us the iOS version you're using? This can be located in Settings > General > About > Version."
+      },
+      {
+        "eval_id": 6,
+        "customer_text": "@user, please! What is going on? My iPhone’s home screen keeps going blank daily since I updated it to #ios1112. Has anyone else reported this as a bug? When will it be fixed? Help. @AppleSupport",
+        "true_intent": "hardware_physical_damage",
+        "pred_intent": "ios_update_performance",
+        "true_escalate": false,
+        "pred_escalate": false,
+        "pred_reason": "Standard troubleshooting for iOS update bugs can be handled via automated support and DM inquiry.",
+        "draft_reply": "@user We appreciate the update and the troubleshooting you've tried so far. In DM, please let us know if this happens when using a particular app.",
+        "reference_reply": "@user We appreciate the update and the troubleshooting you've tried so far. In DM, please let us know if this happens when using a particular app."
+      },
+      {
+        "eval_id": 10,
+        "customer_text": "hi @AppleSupport i have a fully upgraded iphone SE. why can’t i download or use the video app to watch even SD videos (on this device) that i already own? why can i only watch them on my pc laptop *that cost less than this phone did*?",
+        "true_intent": "app_store_billing_subscriptions",
+        "pred_intent": "general_feature_inquiry",
+        "true_escalate": false,
+        "pred_escalate": false,
+        "pred_reason": "Standard feature guidance and troubleshooting can be provided via auto-reply.",
+        "draft_reply": "@user What type of issue are you running into when you attempt to use the TV app for videos? We'll offer all the help we can in getting you back to video enjoyment.",
+        "reference_reply": "@user What type of issue are you running into when you attempt to use the TV app for videos? We'll offer all the help we can in getting you back to video enjoyment."
+      },
+      {
+        "eval_id": 19,
+        "customer_text": "@AppleSupport @user I️ am also having this problem! And I’ve contacted Apple support and neither rep seemed to have a clue how to fix it!",
+        "true_intent": "general_feature_inquiry",
+        "pred_intent": "other_unclassified",
+        "true_escalate": false,
+        "pred_escalate": true,
+        "pred_reason": "The customer has experienced repeated unresolved issues after speaking with multiple representatives.",
+        "draft_reply": "@user We'd like to see what we can do to assist. We received your DM, and we'll be following up with you there shortly.",
+        "reference_reply": "@user We'd like to see what we can do to assist. We received your DM, and we'll be following up with you there shortly."
+      },
+      {
+        "eval_id": 20,
+        "customer_text": "I am amazingly and surprisingly disgusted at @user and their customer service. Even though I’m trying to spend money on them, I’m not good enough for their 24 hour support line and the online support members are horrible.",
+        "true_intent": "app_store_billing_subscriptions",
+        "pred_intent": "other_unclassified",
+        "true_escalate": false,
+        "pred_escalate": true,
+        "pred_reason": "The customer is expressing severe frustration and anger regarding customer service and unresolved issues, requiring human intervention.",
+        "draft_reply": "@user Certainly not what we want you to experience! Please let us know what's going on and how we can help in a DM.",
+        "reference_reply": "@user Certainly not what we want you to experience! Please let us know what's going on and how we can help in a DM."
+      },
+      {
+        "eval_id": 22,
+        "customer_text": "Hi @AppleSupport, i am having battery drain issues on my iphone 7 plus. Do you aware of this problem? Problem came with 11.1.2.",
+        "true_intent": "battery_power_drain",
+        "pred_intent": "ios_update_performance",
+        "true_escalate": false,
+        "pred_escalate": false,
+        "pred_reason": "Standard troubleshooting for post-update battery issues can be handled via initial DM triage.",
+        "draft_reply": "@user Hi there! We can definitely look into this with you. Send us a DM and we'll investigate this further.",
+        "reference_reply": "@user HI there! We can definitely look into this with you. Send us a DM and we'll investigate this further."
+      },
+      {
+        "eval_id": 25,
+        "customer_text": "@AppleSupport Network connection ✅ Latest software ✅ AppStore setting ✅ Date and time sync ✅",
+        "true_intent": "app_store_billing_subscriptions",
+        "pred_intent": "connectivity_wifi_bluetooth",
+        "true_escalate": false,
+        "pred_escalate": false,
+        "pred_reason": "Standard troubleshooting checklist provided by customer, ready for a quick follow-up restart recommendation or DM invitation.",
+        "draft_reply": "@user OK. Let us know in DM if this continues after restarting your iPhone:",
+        "reference_reply": "@user OK. Let us know in DM if this continues after restarting your iPhone:"
+      },
+      {
+        "eval_id": 26,
+        "customer_text": "@user @user I’m also stuck on 10.13.1 beta (17B46a) and won’t show 10.13.1 final to show in App Store updates. @AppleSupport",
+        "true_intent": "app_store_billing_subscriptions",
+        "pred_intent": "ios_update_performance",
+        "true_escalate": false,
+        "pred_escalate": false,
+        "pred_reason": "Standard troubleshooting for a beta update stickiness issue that can be handled via initial DM triage.",
+        "draft_reply": "@user We want you to be able to update your Mac. Please send us a DM, so we can take a closer look.",
+        "reference_reply": "@user We want you to be able to update your Mac. Please send us a DM, so we can take a closer look."
+      },
+      {
+        "eval_id": 28,
+        "customer_text": "@AppleSupport @user @AppleSupport oh dear @user still not co-oping with iCloud in ios11.1 really really poor show. #garageband",
+        "true_intent": "icloud_apple_id_access",
+        "pred_intent": "ios_update_performance",
+        "true_escalate": false,
+        "pred_escalate": false,
+        "pred_reason": "Issue is a software performance interaction with iCloud on a specific iOS version that can be addressed via standard support links or directed to specialized app support.",
+        "draft_reply": "@user If you're still having troubles with GarageBand and iCloud, be sure to follow up with our team that helps with GarageBand here: https://support.apple.com/garageband",
+        "reference_reply": "@user If you're still having troubles, be sure to follow up with our team that helps with GarageBand here:"
+      },
+      {
+        "eval_id": 29,
+        "customer_text": "@AppleSupport Hello, I'm planning to buy Iphone X from apple store and i have a trip to Europe - Bulgaria. There is a One-time payment option which says Unlocked iPhone with Sprint SIM for 999. Will I be able to use the phone with Telenor sim?",
+        "true_intent": "app_store_billing_subscriptions",
+        "pred_intent": "general_feature_inquiry",
+        "true_escalate": false,
+        "pred_escalate": false,
+        "pred_reason": "General compatibility question that can be addressed via standard product information and direct messaging.",
+        "draft_reply": "@user Hi there. We've received your DM. We will follow up with you there shortly.",
+        "reference_reply": "@user Hi there. We've received your DM. We will follow up with you there shortly."
+      },
+      {
+        "eval_id": 30,
+        "customer_text": "@AppleSupport I have exhausted all options to try and sort an issue I have with my phone and not being able to download any new apps. I have only had this phone since June and I have been advised by someone in your support call team it’s a phone issue. Fix up Apple! I’m not happy",
+        "true_intent": "general_feature_inquiry",
+        "pred_intent": "app_store_billing_subscriptions",
+        "true_escalate": false,
+        "pred_escalate": true,
+        "pred_reason": "The customer is frustrated, has an unresolved issue with downloading apps, and was previously advised by phone support that it requires hardware or escalated troubleshooting.",
+        "draft_reply": "@user Thanks so much for reaching back out. We're sorry for the frustration and want to help get this sorted. So we can look closer into your phone issue with you, please reach out to us in DM and we'll continue from there.",
+        "reference_reply": "@user Thanks so much for reaching back out. So we can look closer into this with you, reach out to us in DM using the link below and we'll continue from there."
+      }
+    ]
+  }
+]
